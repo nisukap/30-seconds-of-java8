@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import java.util.LinkedHashMap;
 
 public abstract class Snippets {
 
@@ -305,7 +306,14 @@ public abstract class Snippets {
      * @return grouped elements in a Map
      */
     public static <T, R> Map<R, List<T>> groupBy(T[] elements, Function<T, R> func) {
-        return Arrays.stream(elements).collect(Collectors.groupingBy(func));
+        return Arrays.stream(elements).collect(
+		Collectors.groupingBy(
+			func,
+			LinkedHashMap::new,
+			Collectors.toList()
+		)
+	);
+
     }
 
     /**
